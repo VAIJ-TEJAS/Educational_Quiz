@@ -27,7 +27,7 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
   const { user } = useAuth();
 
   const [quiz, setQuiz] = useState<QuizProps | DocumentData>();
-  const [userResponse, setUserResponse] = useState()
+  const [userResponse, setUserResponse] = useState<DocumentData>();
   const [isQuizAnswered, setIsQuizAnswered] = useState<boolean>();
   const [quizRating, setQuizRating] = useState(0);
 
@@ -47,13 +47,13 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
   useEffect(() => {
     Promise.all([getDocs(isQuestionAnsweredQuery), getDocs(getQuestionQuery)])
       .then(([querySnapShot1, querySnapShot2]) => {
-
-        if (querySnapShot1.empty) { setIsQuizAnswered(false) }
-        else { 
-            querySnapShot1.forEach(doc => {
-                setUserResponse(doc.data())
-            })
-            setIsQuizAnswered(true); 
+        if (querySnapShot1.empty) {
+          setIsQuizAnswered(false);
+        } else {
+          querySnapShot1.forEach((doc) => {
+            setUserResponse(doc.data());
+          });
+          setIsQuizAnswered(true);
         }
 
         querySnapShot2.forEach((doc) => {
@@ -68,24 +68,24 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
   const [userAnswer, setUserAnswer] = useState("");
 
   const submitAnswer = () => {
-    if (userAnswer !== "" && quizRating !== 0 )
+    if (userAnswer !== "" && quizRating !== 0)
       addDoc(collection(db, dataCollection), {
         user: user?.email,
         questionId: quiz?.questionId,
         userAnswer,
         isAnswerCorrect: userAnswer === quiz?.answer,
         date,
-        quizRating
+        quizRating,
       })
         .then(() => {
           alert("Answer submitted");
-          location.reload()
+          location.reload();
         })
         .catch((err) => {
           console.log(err);
         });
     else {
-        alert("Answer the quiz and rate it to submit")
+      alert("Answer the quiz and rate it to submit");
     }
   };
 
@@ -117,8 +117,8 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
         {isQuizAnswered ? (
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
-                <span>Your Answer: {userResponse?.userAnswer}</span>
-                <span>Correct answer: {quiz?.answer}</span>
+              <span>Your Answer: {userResponse?.userAnswer}</span>
+              <span>Correct answer: {quiz?.answer}</span>
             </div>
             <span>Question By:- {quiz.questionMadeBy}</span>
           </div>
