@@ -5,12 +5,15 @@ import { useAuth } from "./providers/AuthProvider";
 import Navbar from "./components/Navbar";
 import MathematicsPage from "./pages/MathematicsPage";
 import DataSciencePage from "./pages/DataSciencePage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { user } = useAuth();
 
   return (
     <BrowserRouter>
+      <ToastContainer />
       {user ? (
         <>
           <Navbar />

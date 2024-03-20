@@ -11,6 +11,9 @@ import { db } from "../firebaseConfig";
 import { useAuth } from "../providers/AuthProvider";
 import { InfinitySpin } from "react-loader-spinner";
 import Rating from "./Rating";
+import { User } from "firebase/auth";
+import { Bounce, toast } from "react-toastify";
+import { toastConfig } from "../config/toastConfig";
 
 interface QuizProps {
   question: string;
@@ -41,7 +44,7 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
   const isQuestionAnsweredQuery = query(
     collection(db, dataCollection),
     where("date", "==", date),
-    where("user", "==", user?.email)
+    where("user", "==", (user as User)?.email)
   );
 
   useEffect(() => {
@@ -73,23 +76,43 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
 
   const submitAnswer = () => {
     if (userAnswer !== "" && quizRating !== 0)
-      addDoc(collection(db, dataCollection), {
-        user: user?.email,
-        questionId: quiz?.questionId,
-        userAnswer,
-        isAnswerCorrect: userAnswer === quiz?.answer,
-        date,
-        quizRating,
-      })
-        .then(() => {
-          alert("Answer submitted");
-          location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      toast.promise(
+        addDoc(collection(db, dataCollection), {
+          user: (user as User)?.email,
+          questionId: quiz?.questionId,
+          userAnswer,
+          isAnswerCorrect: userAnswer === quiz?.answer,
+          date,
+          quizRating,
+        }),
+        {
+          pending: "Please Wait",
+          success: {
+            render() {
+              location.reload();
+              return "Answer submitted successfully";
+            },
+          },
+          error: {
+            render({ data }: { data: { message: string } }) {
+              return data?.message;
+            },
+          },
+        },
+        toastConfig
+      );
     else {
-      alert("Answer the quiz and rate it to submit");
+      toast.error("Please rate and answer the quiz to submit it", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
 
