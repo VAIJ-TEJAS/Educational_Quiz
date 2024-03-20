@@ -26,7 +26,7 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
 }) => {
   const { user } = useAuth();
 
-  const [quiz, setQuiz] = useState<QuizProps | DocumentData>();
+  const [quiz, setQuiz] = useState<QuizProps | DocumentData | null>();
   const [userResponse, setUserResponse] = useState<DocumentData>();
   const [isQuizAnswered, setIsQuizAnswered] = useState<boolean>();
   const [quizRating, setQuizRating] = useState(0);
@@ -56,9 +56,13 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
           setIsQuizAnswered(true);
         }
 
-        querySnapShot2.forEach((doc) => {
-          setQuiz(doc.data());
-        });
+        if (querySnapShot2.empty) {
+          setQuiz(null);
+        } else {
+          querySnapShot2.forEach((doc) => {
+            setQuiz(doc.data());
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -89,8 +93,12 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
     }
   };
 
-  if (!quiz) {
+  if (quiz === undefined) {
     return <InfinitySpin width="200" color="#4fa94d" />;
+  }
+
+  if (quiz === null) {
+    return <h2>No quiz for today</h2>;
   }
 
   return (
