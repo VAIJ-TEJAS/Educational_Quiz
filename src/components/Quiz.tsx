@@ -74,17 +74,46 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
 
   const [userAnswer, setUserAnswer] = useState("");
 
+  // const p = Promise.all([
+  //   addDoc(collection(db, dataCollection), {
+  //     user: (user as User)?.email,
+  //     questionId: quiz?.questionId,
+  //     userAnswer,
+  //     isAnswerCorrect: userAnswer === quiz?.answer,
+  //     date,
+  //     quizRating,
+  //   }),
+  //   addDoc(collection(db, user?.email!), {
+  //     questionId: quiz?.questionId,
+  //     question: quiz?.question,
+  //     userAnswer,
+  //     isAnswerCorrect: userAnswer === quiz?.answer,
+  //     date,
+  //     quizRating,
+  //   }),
+  // ]);
+
   const submitAnswer = () => {
     if (userAnswer !== "" && quizRating !== 0)
       toast.promise(
-        addDoc(collection(db, dataCollection), {
-          user: (user as User)?.email,
-          questionId: quiz?.questionId,
-          userAnswer,
-          isAnswerCorrect: userAnswer === quiz?.answer,
-          date,
-          quizRating,
-        }),
+        Promise.all([
+          addDoc(collection(db, dataCollection), {
+            user: (user as User)?.email,
+            questionId: quiz?.questionId,
+            userAnswer,
+            isAnswerCorrect: userAnswer === quiz?.answer,
+            date,
+            quizRating,
+          }),
+          addDoc(collection(db, user?.email!), {
+            questionId: quiz?.questionId,
+            question: quiz?.question,
+            userAnswer,
+            isAnswerCorrect: userAnswer === quiz?.answer,
+            date,
+            quizRating,
+          }),
+        ]),
         {
           pending: "Please Wait",
           success: {
