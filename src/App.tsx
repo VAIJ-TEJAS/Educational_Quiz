@@ -7,6 +7,8 @@ import MathematicsPage from "./pages/MathematicsPage";
 import DataSciencePage from "./pages/DataSciencePage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
 const App = () => {
   const { user } = useAuth();
@@ -26,6 +28,8 @@ const App = () => {
       ) : (
         <Routes>
           <Route path="/" element={<OnboardingPage />} />
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
       )}
     </BrowserRouter>

@@ -1,47 +1,25 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebaseConfig";
-import { useNavigate } from "react-router-dom";
-import SignUpCard from "../components/SignUpCard";
-import { useState } from "react";
-import LoginCard from "../components/LoginCard";
+import { Link } from "react-router-dom";
 
 const OnboardingPage = () => {
-  const navigate = useNavigate();
-
-  const googleProvider = new GoogleAuthProvider();
-
-  const signIn = () => {
-    signInWithPopup(auth, googleProvider)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const [showLogin, setShowLogin] = useState(true);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      {showLogin ? (
-        <LoginCard setShowLogin={setShowLogin} />
-      ) : (
-        <SignUpCard setShowLogin={setShowLogin} />
-      )}
-
-      <div className="flex items-center space-x-5 p-8">
-        <span className="w-28 border-b-2"></span>
-        <span>OR</span>
-        <span className="w-28 border-b-2"></span>
+      <img src="quiz.jpg" className="w-96" alt="" />
+      <h1 className="text-4xl font-bold text-blue-900">Educational Quiz</h1>
+      <p className="text-lg font-medium max-w-96 text-center pt-5">Unleash your intellect, one question at a time - Welcome to the Educational Quiz!"</p>
+      <div className="flex items-center space-x-3 pt-10">
+        <Link
+          to="/signup"
+          className=" px-10 py-3 rounded-lg border border-gray-900 hover:text-white hover:bg-gray-900 font-medium"
+        >
+          Sign Up
+        </Link>
+        <Link
+          to="/login"
+          className="bg-blue-500 font-medium text-white px-10 py-3 rounded-lg hover:bg-blue-800"
+        >
+          Log In
+        </Link>
       </div>
-      <button
-        onClick={signIn}
-        className="bg-gray-800 flex items-center space-x-5 hover:bg-gray-950 text-white shadow-sm px-7 py-4 rounded-md"
-      >
-        <img src="glogo.png" className="rounded-full w-6" alt="" />
-        <span>Sign in with Google</span>
-      </button>
     </div>
   );
 };

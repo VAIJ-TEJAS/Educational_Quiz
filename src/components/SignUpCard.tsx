@@ -1,15 +1,11 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toastConfig } from "../config/toastConfig";
 import { toast } from "react-toastify";
 
-interface SignUpCardProps {
-  setShowLogin: Dispatch<SetStateAction<boolean>>;
-}
-
-const SignUpCard: FC<SignUpCardProps> = ({ setShowLogin }) => {
+const SignUpCard = () => {
   const navigate = useNavigate();
 
   const [cred, setCred] = useState({
@@ -18,24 +14,24 @@ const SignUpCard: FC<SignUpCardProps> = ({ setShowLogin }) => {
   });
 
   const createUser = () => {
-      toast.promise(
-        createUserWithEmailAndPassword(auth, cred.email, cred.password),
-        {
-          pending: "Please Wait",
-          success: {
-            render() {
-              navigate("/");
-              return "Account created successfully";
-            },
+    toast.promise(
+      createUserWithEmailAndPassword(auth, cred.email, cred.password),
+      {
+        pending: "Please Wait",
+        success: {
+          render() {
+            navigate("/");
+            return "Account created successfully";
           },
-          error: {
-            render({ data }: { data: { message: string } }) {
-                return data?.message
-            },
-          }
         },
-        toastConfig
-      );
+        error: {
+          render({ data }: { data: { message: string } }) {
+            return data?.message;
+          },
+        },
+      },
+      toastConfig
+    );
   };
 
   return (
@@ -72,12 +68,12 @@ const SignUpCard: FC<SignUpCardProps> = ({ setShowLogin }) => {
       <div className="pt-5">
         <p className="text-center">
           Already have an account ?{" "}
-          <button
-            onClick={() => setShowLogin(true)}
+          <Link
+            to="/login"
             className="font-medium text-blue-500 hover:text-blue-800"
           >
             Log in
-          </button>
+          </Link>
         </p>
       </div>
     </div>

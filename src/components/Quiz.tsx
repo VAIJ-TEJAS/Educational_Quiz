@@ -14,6 +14,7 @@ import Rating from "./Rating";
 import { User } from "firebase/auth";
 import { Bounce, toast } from "react-toastify";
 import { toastConfig } from "../config/toastConfig";
+import axios from "axios";
 
 interface QuizProps {
   question: string;
@@ -74,25 +75,6 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
 
   const [userAnswer, setUserAnswer] = useState("");
 
-  // const p = Promise.all([
-  //   addDoc(collection(db, dataCollection), {
-  //     user: (user as User)?.email,
-  //     questionId: quiz?.questionId,
-  //     userAnswer,
-  //     isAnswerCorrect: userAnswer === quiz?.answer,
-  //     date,
-  //     quizRating,
-  //   }),
-  //   addDoc(collection(db, user?.email!), {
-  //     questionId: quiz?.questionId,
-  //     question: quiz?.question,
-  //     userAnswer,
-  //     isAnswerCorrect: userAnswer === quiz?.answer,
-  //     date,
-  //     quizRating,
-  //   }),
-  // ]);
-
   const submitAnswer = () => {
     if (userAnswer !== "" && quizRating !== 0)
       toast.promise(
@@ -105,14 +87,22 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
             date,
             quizRating,
           }),
-          addDoc(collection(db, user?.email!), {
+          // addDoc(collection(db, user?.email!), {
+          //   questionId: quiz?.questionId,
+          //   question: quiz?.question,
+          //   userAnswer,
+          //   isAnswerCorrect: userAnswer === quiz?.answer,
+          //   date,
+          //   quizRating,
+          // }),
+          axios.post(`https://educationalquiz-c87d4-default-rtdb.firebaseio.com/users/${user?.email?.split("@")[0]}.json` ,{
             questionId: quiz?.questionId,
             question: quiz?.question,
             userAnswer,
             isAnswerCorrect: userAnswer === quiz?.answer,
             date,
             quizRating,
-          }),
+          })
         ]),
         {
           pending: "Please Wait",

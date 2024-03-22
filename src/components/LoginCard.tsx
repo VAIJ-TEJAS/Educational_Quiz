@@ -1,15 +1,11 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { auth } from "../firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toastConfig } from "../config/toastConfig";
 
-interface LoginCardProps {
-  setShowLogin: Dispatch<SetStateAction<boolean>>;
-}
-
-const LoginCard: FC<LoginCardProps> = ({ setShowLogin }) => {
+const LoginCard = () => {
   const navigate = useNavigate();
 
   const [cred, setCred] = useState({
@@ -72,12 +68,11 @@ const LoginCard: FC<LoginCardProps> = ({ setShowLogin }) => {
       <div className="pt-5">
         <p className="text-center">
           Don't have an account ?{" "}
-          <button
-            onClick={() => setShowLogin(false)}
+          <Link to="/signup"
             className="font-medium text-blue-500 hover:text-blue-800"
           >
             Register
-          </button>
+          </Link>
         </p>
       </div>
     </div>
