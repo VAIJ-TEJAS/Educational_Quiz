@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toastConfig } from "../config/toastConfig";
 
-const LoginCard = () => {
+export const LoginCard = () => {
   const navigate = useNavigate();
 
   const [cred, setCred] = useState({
@@ -78,5 +78,3 @@ const LoginCard = () => {
     </div>
   );
 };
-
-export default LoginCard;

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const OnboardingPage = () => {
+export const OnboardingPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <img src="quiz.jpg" className="w-96" alt="" />
@@ -24,4 +24,3 @@ const OnboardingPage = () => {
   );
 };
 
-export default OnboardingPage;

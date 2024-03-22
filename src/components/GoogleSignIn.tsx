@@ -2,7 +2,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 
-const GoogleSignIn = () => {
+export const GoogleSignIn = () => {
   const navigate = useNavigate();
 
   const googleProvider = new GoogleAuthProvider();
@@ -36,5 +36,3 @@ const GoogleSignIn = () => {
     </div>
   );
 };
-
-export default GoogleSignIn;

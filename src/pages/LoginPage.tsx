@@ -1,13 +1,10 @@
-import LoginCard from "../components/LoginCard";
-import GoogleSignIn from "../components/GoogleSignIn";
+import { LoginCard, GoogleSignIn } from "../components"
 
-const LoginPage = () => {
+export const LoginPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-58px)]">
         <LoginCard />
         <GoogleSignIn />
     </div>
   );
 };
-
-export default LoginPage;

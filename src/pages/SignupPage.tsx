@@ -1,13 +1,10 @@
-import SignUpCard from "../components/SignUpCard";
-import GoogleSignIn from "../components/GoogleSignIn";
+import { SignUpCard, GoogleSignIn,  } from "../components"
 
-const SignupPage = () => {
+export const SignupPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-58px)]">
       <SignUpCard />
       <GoogleSignIn />
     </div>
   );
 };
-
-export default SignupPage;

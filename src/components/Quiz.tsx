@@ -10,7 +10,7 @@ import { FC, useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
 import { useAuth } from "../providers/AuthProvider";
 import { InfinitySpin } from "react-loader-spinner";
-import Rating from "./Rating";
+import {Rating} from "../components";
 import { User } from "firebase/auth";
 import { Bounce, toast } from "react-toastify";
 import { toastConfig } from "../config/toastConfig";
@@ -24,7 +24,7 @@ interface QuizProps {
   questionMadeBy: string;
 }
 
-const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
+export const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
   dataCollection,
   questionCollection,
 }) => {
@@ -87,14 +87,6 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
             date,
             quizRating,
           }),
-          // addDoc(collection(db, user?.email!), {
-          //   questionId: quiz?.questionId,
-          //   question: quiz?.question,
-          //   userAnswer,
-          //   isAnswerCorrect: userAnswer === quiz?.answer,
-          //   date,
-          //   quizRating,
-          // }),
           axios.post(`https://educationalquiz-c87d4-default-rtdb.firebaseio.com/users/${user?.email?.split("@")[0]}.json` ,{
             questionId: quiz?.questionId,
             question: quiz?.question,
@@ -190,5 +182,3 @@ const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
     </div>
   );
 };
-
-export default Quiz;
