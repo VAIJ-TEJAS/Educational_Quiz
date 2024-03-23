@@ -1,9 +1,11 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 
 export const GoogleSignIn = () => {
   const navigate = useNavigate();
+
+  const path = useLocation().pathname;
 
   const googleProvider = new GoogleAuthProvider();
 
@@ -30,7 +32,7 @@ export const GoogleSignIn = () => {
           className="bg-gray-800 flex items-center space-x-5 hover:bg-gray-950 text-white shadow-sm px-7 py-4 rounded-md"
         >
           <img src="glogo.png" className="rounded-full w-6" alt="" />
-          <span>Sign up with Google</span>
+          <span>{path === "/login" ? "Log in" : "Sign up"} with Google</span>
         </button>
       </div>
     </div>

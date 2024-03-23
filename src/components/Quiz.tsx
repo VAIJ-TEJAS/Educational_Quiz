@@ -10,11 +10,11 @@ import { FC, useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
 import { useAuth } from "../providers/AuthProvider";
 import { InfinitySpin } from "react-loader-spinner";
-import {Rating} from "../components";
+import { Rating } from "../components";
 import { User } from "firebase/auth";
 import { Bounce, toast } from "react-toastify";
 import { toastConfig } from "../config/toastConfig";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface QuizProps {
   question: string;
@@ -24,11 +24,13 @@ interface QuizProps {
   questionMadeBy: string;
 }
 
-export const Quiz: FC<{ dataCollection: string; questionCollection: string }> = ({
-  dataCollection,
-  questionCollection,
-}) => {
+export const Quiz: FC<{
+  dataCollection: string;
+  questionCollection: string;
+}> = ({ dataCollection, questionCollection }) => {
   const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   const [quiz, setQuiz] = useState<QuizProps | DocumentData | null>();
   const [userResponse, setUserResponse] = useState<DocumentData>();
@@ -87,20 +89,20 @@ export const Quiz: FC<{ dataCollection: string; questionCollection: string }> = 
             date,
             quizRating,
           }),
-          axios.post(`https://educationalquiz-c87d4-default-rtdb.firebaseio.com/users/${user?.email?.split("@")[0]}.json` ,{
+          addDoc(collection(db, user?.email!), {
             questionId: quiz?.questionId,
             question: quiz?.question,
             userAnswer,
             isAnswerCorrect: userAnswer === quiz?.answer,
             date,
             quizRating,
-          })
+          }),
         ]),
         {
           pending: "Please Wait",
           success: {
             render() {
-              location.reload();
+              navigate("/");
               return "Answer submitted successfully";
             },
           },
@@ -157,18 +159,31 @@ export const Quiz: FC<{ dataCollection: string; questionCollection: string }> = 
 
       <div className="py-10">
         {isQuizAnswered ? (
-          <div className="flex items-start justify-between">
-            <div className="flex flex-col">
-              <span>Your Answer: {userResponse?.userAnswer}</span>
-              <span>Correct answer: {quiz?.answer}</span>
+          <div className="flex flex-col flex-wrap justify-center items-center rounded-lg px-6 py-4">
+            <div className="flex items-center justify-center flex-col">
+              <p className="font-bold pb-2">
+                Your Answer: {userResponse?.userAnswer}
+              </p>
+              <p className="font-bold pb-2">Correct answer: {quiz?.answer}</p>
             </div>
-            <span>Question By:- {quiz.questionMadeBy}</span>
+
+            <span className="text-sm pt-5">
+              Question By:- {quiz.questionMadeBy}
+            </span>
           </div>
         ) : (
           <div className="flex items-center justify-center flex-col space-y-10">
-            <div className="flex items-center space-x-20">
-              <Rating quizRating={quizRating} setQuizRating={setQuizRating} />
-              <span>Question By:- {quiz.questionMadeBy}</span>
+            <div className="flex flex-col flex-wrap justify-center items-center border rounded-lg px-6 py-4">
+              <div className="flex items-center justify-center flex-col">
+                <p className="font-bold pb-2">
+                  🙏 Please rate the above question
+                </p>
+                <Rating quizRating={quizRating} setQuizRating={setQuizRating} />
+              </div>
+
+              <span className="text-sm pt-5">
+                Question By:- {quiz.questionMadeBy}
+              </span>
             </div>
             <button
               onClick={submitAnswer}
