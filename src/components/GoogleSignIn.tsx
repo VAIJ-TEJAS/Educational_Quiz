@@ -30,7 +30,7 @@ export const GoogleSignIn = () => {
           className="bg-gray-800 flex items-center space-x-5 hover:bg-gray-950 text-white shadow-sm px-7 py-4 rounded-md"
         >
           <img src="glogo.png" className="rounded-full w-6" alt="" />
-          <span>Sign in with Google</span>
+          <span>Sign up with Google</span>
         </button>
       </div>
     </div>

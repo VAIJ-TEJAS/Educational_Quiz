@@ -3,7 +3,6 @@ import { auth } from "../firebaseConfig";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
-import { GiExitDoor } from "react-icons/gi";
 import { CiLogout } from "react-icons/ci";
 
 export const Navbar = () => {
