@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCq4UTI7GVKYa-KWAYGrfP93I-Dx0S4X6A",
-  authDomain: "educationalquiz-c87d4.firebaseapp.com",
-  projectId: "educationalquiz-c87d4",
-  storageBucket: "educationalquiz-c87d4.appspot.com",
-  messagingSenderId: "1079673630831",
-  appId: "1:1079673630831:web:ec99f87165e053a1d4dd9a",
-  measurementId: "G-K56GNBDXYY",
+  apiKey: "AIzaSyDKLLT5Q-LcIB0SA5Qgz-Zwwr3HGgT1Dhk",
+  authDomain: "educationalquiz-eb6d2.firebaseapp.com",
+  projectId: "educationalquiz-eb6d2",
+  storageBucket: "educationalquiz-eb6d2.appspot.com",
+  messagingSenderId: "799833997839",
+  appId: "1:799833997839:web:38115bbe0c6ff46acc197a",
+  measurementId: "G-YR3G9PDWQV",
 };
 
 const app = initializeApp(firebaseConfig);
